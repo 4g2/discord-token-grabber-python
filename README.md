@@ -25,9 +25,10 @@ Shows info about grabbed tokens, such as:
 - Language
 - IP Address
 - Phone Number
+- Checks if the token is verified or not
 - More coming soon
 
-![](https://media.discordapp.net/attachments/852275868939190275/853717280180142120/unknown.png)
+![](https://media.discordapp.net/attachments/852275868939190275/853719273986195456/unknown.png)
 
 ------------
 
