@@ -26,9 +26,11 @@ Shows info about grabbed tokens, such as:
 - IP Address
 - Phone Number
 - Checks if the token is verified or not
+- Checks for billing info
+- Checks if the account has nitro
 - More coming soon
 
-![](https://media.discordapp.net/attachments/852275868939190275/853719273986195456/unknown.png)
+![](https://media.discordapp.net/attachments/852275868939190275/853724447802523688/unknown.png?width=400&height=281)
 
 ------------
 
