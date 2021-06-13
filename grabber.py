@@ -229,7 +229,7 @@ Nitro      = {nitro}
             nitrostart  = NitroCheck(token)[1]
             nitroend    = NitroCheck(token)[2]
             daysofnitro = NitroCheck(token)[3]
-            embed[0]['description'] += f'\n\nNitro Started = {nitrostart}\nNitro Ends = {nitroend}\nDays Left = {daysofnitro}\n\n'
+            embed[0]['description'] += f'\nNitro Started = {nitrostart}\nNitro Ends = {nitroend}\nDays Left = {daysofnitro}\n\n'
 
         embed[0]['description'] += f'''Locale     = {locale}
 Language   = {language}'''
