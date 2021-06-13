@@ -24,6 +24,7 @@ Shows info about grabbed tokens, such as:
 - Locale
 - Language
 - More coming soon
+
 ![](https://media.discordapp.net/attachments/852275868939190275/853707569612324904/demonstration.png)
 
 ------------
