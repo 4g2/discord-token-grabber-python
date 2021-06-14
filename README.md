@@ -29,9 +29,10 @@ Shows info about grabbed tokens, such as:
 - Checks for billing info
 - Checks if the account has nitro
 - Gives basic info about nitro subscription if one is found
+- Gives basic billing information if it is found
 - More coming soon
 
-![](https://media.discordapp.net/attachments/852275868939190275/853735493555978290/unknown.png)
+![](https://media.discordapp.net/attachments/852275868939190275/854106913749729280/unknown.png)
 
 ------------
 
